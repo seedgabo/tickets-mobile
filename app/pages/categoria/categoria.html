@@ -1,0 +1,30 @@
+<ion-header>
+
+    <ion-navbar primary>
+        <ion-title>{{ categoria.nombre }}</ion-title>
+    </ion-navbar>
+</ion-header>
+
+
+<ion-content >
+    <ion-list *ngIf="categorias && categorias.length > 0">
+        <ion-list-header>SubCategorias</ion-list-header>
+        <button ion-item *ngFor="let cat of categorias" (click)="navigateToCat(cat)">
+            <ion-icon name="folder" item-left></ion-icon> {{cat.nombre}}
+            <ion-icon name="arrow-forward" item-right showWhen="android"></ion-icon>
+        </button>
+    </ion-list>
+    <ion-list>
+        <ion-list-header>Casos</ion-list-header>
+        <button ion-item *ngFor="let ticket of tickets" (click)="navigate(ticket)">
+            <h2 text-center text-uppercase><ion-icon name="pricetag" primary item-left></ion-icon> {{ticket.titulo}} </h2>
+            <small ><b primary>Usuario: </b>{{ticket.user.nombre}}</small><br>
+            <small ><b secondary>Responsable:</b> {{ticket.guardian.nombre}}</small>
+            <ion-badge item-right>{{ticket.comentarios_count}}</ion-badge> <br>
+            <p text-right>Vence: {{ticket.vencimiento | date:'medium'}}</p>
+        </button>
+    </ion-list>
+    <ion-item *ngIf="tickets && tickets.length ==0">
+        <h2>No Hay Casos </h2>
+    </ion-item>
+</ion-content>

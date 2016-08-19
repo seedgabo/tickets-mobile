@@ -1,0 +1,27 @@
+<ion-header>
+
+  <ion-navbar primary>
+    <ion-title>{{categoria.nombre}}</ion-title>
+  </ion-navbar>
+
+</ion-header>
+
+
+<ion-content>
+    <center *ngIf="loading != ''"><ion-spinner></ion-spinner><br> {{loading}}</center>
+    <ion-list *ngIf="categorias && categorias.length > 0">
+        <ion-list-header>Categorias</ion-list-header>
+        <button ion-item (click)="navigateToCat(cat)" *ngFor="let cat of categorias">
+            <ion-icon name="folder" item-left></ion-icon> {{cat.nombre}}
+        </button>
+    </ion-list>
+    <ion-list>
+        <ion-list-header>Documentos</ion-list-header>
+        <button ion-item *ngFor="let documento of documentos" (click)="descargarDocumento(documento)">
+            <ion-icon item-left name="document"></ion-icon>
+            <h2 text-center>{{documento.titulo}}</h2>
+            <p>{{documento.descripcion}}</p>
+            <button item-right clear><ion-icon name="download"></ion-icon></button>
+        </button>
+    </ion-list>
+</ion-content>

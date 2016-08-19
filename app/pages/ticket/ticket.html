@@ -1,0 +1,28 @@
+<ion-header>
+
+  <ion-navbar>
+    <ion-title>{{ticket.titulo}}</ion-title>
+  </ion-navbar>
+
+</ion-header>
+
+
+<ion-content class="ticket">
+    <ion-card>
+        <ion-card-header class="header" text-center>{{ticket.titulo}}</ion-card-header>
+        <div padding [innerHTML]="ticket.contenido"></div>
+        <p text-right secondary padding *ngIf="ticket.user"><b>Usuario:</b> {{ticket.user.nombre}}</p>
+    </ion-card>
+    <ion-card>
+        <ion-card-header class="header" text-center>Seguimiento</ion-card-header>
+        <ion-list *ngIf="comentarios">
+            <ion-item *ngFor="let com of comentarios">
+                <p [innerHTML]="com.texto"></p>
+                <p text-right secondary padding *ngIf="com.user"><b>Por: </b> {{com.user.nombre}} </p>
+            </ion-item>
+        </ion-list>
+    </ion-card>
+</ion-content>
+<ion-footer>
+    <button fab fab-right fab-bottom secondary><ion-icon name="add" style="z-index:1000"></ion-icon></button>
+</ion-footer>

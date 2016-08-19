@@ -1,0 +1,30 @@
+<ion-header>
+<ion-navbar  primary>
+    <ion-title text-center><b>DUFLO</b><span>SA</span></ion-title>
+</ion-navbar>
+</ion-header>
+<ion-content class="page1">
+
+    <div class="login">
+        <center><img src="img/logo.png" style="width:100px" alt=""></center>
+        <br>
+        <h1 text-center primary> Iniciar Sesión</h1>
+        <div padding>
+            <ion-item style="background:rgba(255,255,255,0.3)" >
+                <ion-label floating>Usuario</ion-label>
+                <ion-input type="text" [(ngModel)]="api.username"></ion-input>
+            </ion-item>
+            <ion-item style="background:rgba(255,255,255,0.3)">
+                <ion-label floating >Contraseña</ion-label>
+                <ion-input type="password" [(ngModel)]="api.password"></ion-input>
+            </ion-item>
+            <!-- <ion-item style="background:rgba(255,255,255,0.3)">
+                <ion-label floating >url <ion-badge>Modo Prueba</ion-badge></ion-label>
+                <ion-input type="url" [(ngModel)]="api.url"></ion-input>
+            </ion-item> -->
+            <button primary  full (click)="doLogin()"> Entrar</button>
+        </div>
+    </div>
+
+
+</ion-content>

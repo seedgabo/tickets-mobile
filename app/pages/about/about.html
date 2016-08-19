@@ -1,0 +1,19 @@
+<ion-header>
+    <ion-navbar primary>
+        <ion-title>
+            <ion-icon name="document"></ion-icon> Documentos
+        </ion-title>
+        <ion-buttons end>
+            <button (click)="presentPopover($event)"><ion-icon name="more"></ion-icon></button>
+        </ion-buttons>
+    </ion-navbar>
+</ion-header>
+
+<ion-content  class="about">
+    <ion-list>
+        <ion-list-header>Categorias | Documentos</ion-list-header>
+        <button ion-item (click)="navigate(cat)" *ngFor="let cat of categorias">
+            <ion-icon name="folder" item-left></ion-icon> {{cat.nombre}}
+        </button>
+    </ion-list>
+</ion-content>

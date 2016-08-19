@@ -1,0 +1,18 @@
+<ion-header>
+  <ion-navbar primary>
+    <ion-title><ion-icon name="pricetags"></ion-icon> Casos </ion-title>
+    <ion-buttons end>
+        <button (click)="presentPopover($event)"><ion-icon name="more"></ion-icon></button>
+    </ion-buttons>
+  </ion-navbar>
+</ion-header>
+
+<ion-content class="home">
+    <ion-list>
+        <ion-list-header>Por categorias</ion-list-header>
+        <button ion-item *ngFor="let cat of categorias" (click)="navigate(cat)">
+            <ion-icon name="folder" item-left></ion-icon> {{cat.nombre}}
+            <ion-icon name="arrow-forward" item-right showWhen="android"></ion-icon>
+        </button>
+    </ion-list>
+</ion-content>
