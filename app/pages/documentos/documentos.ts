@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { NavController,NavParams } from 'ionic-angular';
+import { NavController,NavParams, ToastController } from 'ionic-angular';
 import {Api} from '../../providers/api/api';
 import {Transfer} from 'ionic-native';
 declare var cordova:any;
@@ -12,7 +12,7 @@ export class DocumentosPage {
     documentos:any;
     categorias:any;
     loading:string = "";
-    constructor(private navCtrl: NavController, params:NavParams, api:Api) {
+    constructor(private navCtrl: NavController, params:NavParams, api:Api,private toast:ToastController) {
         this.api = api;
         this.categoria = params.get('categoria');
         this.api.getDocumentos(this.categoria.id).then((data:any)=>{
@@ -39,12 +39,12 @@ export class DocumentosPage {
                 headers: headers
             }).then(
                 (entry)  => {
-                    console.log("Archivo Descargado");
+                    this.toast.create({message:"Archivo Descargado", duration:1500, position:"bottom"}).present();
                     this.abrirDocClasico(cordova.file.externalRootDirectory + documento.archivo, documento.mime);
                 }
             ). catch(
                 (error) => {
-                    console.log(error);
+                    this.toast.create({message:error, duration:1500, position:"bottom"}).present();
                     this.loading = "";
                 }
             )
@@ -60,11 +60,11 @@ export class DocumentosPage {
             opener,
             {
                 error : (e)=> {
-                    console.log(e);
+                    this.toast.create({message:e, duration:1500, position:"bottom"}).present();
                     this.loading = "";
                 },
                 success :  () => {
-                    console.log('file opened successfully');
+                    this.toast.create({message:"Abriendo Archivo", duration:1500, position:"bottom"}).present();
                     this.loading = "";
                 }
             }

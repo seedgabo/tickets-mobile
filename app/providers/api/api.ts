@@ -10,11 +10,10 @@ export class Api {
 
     storage = new Storage(SqlStorage);
     username:string; password:string;url:string="http://190.85.8.84:8080/";token:string;
-
     user:any={};
     pushData:any;
     constructor(public http: Http) {
-        // this.url = "http://192.168.0.27/tickets/public/"
+        this.url = "http://192.168.0.27/tickets/public/"
         this.initVar();
     }
 
@@ -97,9 +96,9 @@ export class Api {
         });
     }
 
-    postEncuestaRespuesta(data){
+    postComentarioTicket(data,ticket_id){
         return new Promise(resolve => {
-            this.http.post(this.url + "api/encuestas", data ,{headers : this.setHeaders()})
+            this.http.post(this.url + "api/addComentario/"+ticket_id, data ,{headers : this.setHeaders()})
             .map(res => res.json())
             .subscribe(data => {
                 resolve(data);
@@ -107,6 +106,15 @@ export class Api {
         });
     }
 
+    deleteComenarioTicket(comentario_id){
+        return new Promise(resolve => {
+            this.http.delete(this.url + "api/deleteComenarioTicket/"+ comentario_id, {headers : this.setHeaders()})
+            .map(res => res.json())
+            .subscribe(data => {
+                resolve(data);
+            }, error => {return resolve(this.handleData(error))});
+        });
+    }
     postPushtoken(data){
           return new Promise(resolve => {
               this.http.post(this.url + "api/dispositivos", data ,{headers : this.setHeaders()})

@@ -15,13 +15,16 @@
             <ion-icon name="folder" item-left></ion-icon> {{cat.nombre}}
         </button>
     </ion-list>
-    <ion-list>
-        <ion-list-header>Documentos</ion-list-header>
+    <ion-list no-padding>
+        <ion-list-header *ngIf="documentos && documentos.length > 0">Documentos</ion-list-header>
         <button ion-item *ngFor="let documento of documentos" (click)="descargarDocumento(documento)">
-            <ion-icon item-left name="document"></ion-icon>
-            <h2 text-center>{{documento.titulo}}</h2>
+            <ion-icon item-left name="document" favorite></ion-icon>
+            <h3 text-center>{{documento.titulo}}</h3>
             <p>{{documento.descripcion}}</p>
-            <button item-right clear><ion-icon name="download"></ion-icon></button>
+            <button item-right clear secondary>
+                {{documento.mime}}
+            </button>
         </button>
+        <ion-list-header *ngIf="documentos && documentos.length == 0">No hay documentos</ion-list-header>
     </ion-list>
 </ion-content>

@@ -1,0 +1,20 @@
+<ion-header>
+  <ion-navbar>
+    <ion-title>Agregar Seguimiento</ion-title>
+    <ion-buttons end>
+        <button (click)="dismiss()"><ion-icon name="close"></ion-icon></button>
+    </ion-buttons>
+  </ion-navbar>
+</ion-header>
+
+
+<ion-content padding>
+    <h2 text-center>Agregar Seguimiento a {{ticket.titulo}}</h2>
+    <ion-list>
+        <ion-item>
+            <ion-label stacked>Contenido</ion-label>
+            <ion-textarea rows="6" placeholder="Agregue su contribución..." [(ngModel)]="texto"></ion-textarea>
+        </ion-item>
+        <button full (click)="agregarComentario()" [disabled]="texto.length < 5"> Agregar Seguimiento</button>
+    </ion-list>
+</ion-content>
