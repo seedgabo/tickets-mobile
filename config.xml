@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
 <widget id="com.seedgabo.matseg2304" version="0.6.0" xmlns="http://www.w3.org/ns/widgets" xmlns:cdv="http://cordova.apache.org/ns/1.0">
   <name>Matriz de seguimiento</name>
-  <description>Duflo Sa</description>
-  <author email="hi@ionicframework" href="http://ionicframework.com/">Ionic Framework Team</author>
+  <description>Duflo Sas</description>
+  <author email="seedgabo@gmail.com" href="http://ionicframework.com/">Seed Company | Gabriel Bejarano</author>
   <content src="index.html"/>
   <access origin="*"/>
   <allow-intent href="http://*/*"/>
@@ -27,7 +27,6 @@
     <splash src="resources\android\splash\drawable-port-ldpi-screen.png" density="port-ldpi"/>
     <splash src="resources\android\splash\drawable-port-mdpi-screen.png" density="port-mdpi"/>
     <splash src="resources\android\splash\drawable-port-hdpi-screen.png" density="port-hdpi"/>
-    <splash src="resources\android\splash\drawable-port-xhdpi-screen.png" density="port-xhdpi"/>
   </platform>
   <platform name="ios">
     <allow-intent href="itms:*"/>

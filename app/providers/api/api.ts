@@ -34,6 +34,7 @@ export class Api {
         this.storage.set("user",JSON.stringify(user));
     }
 
+
     doLogin(){
         return new Promise(resolve => {
             this.http.get(this.url + "api/login", {headers : this.setHeaders()})
@@ -76,6 +77,16 @@ export class Api {
         });
     }
 
+    getUsuariosCategoria(categoria_id){
+        return new Promise(resolve => {
+            this.http.get(this.url + "api/getUsuariosCategoria/"+categoria_id, {headers : this.setHeaders()})
+            .map(res => res.json())
+            .subscribe(data => {
+                resolve(data);
+            }, error => {return resolve(this.handleData(error))});
+        });
+    }
+
     getDocumentos(categoria){
         return new Promise(resolve => {
             this.http.get(this.url + "api/"+ categoria +"/getDocumentos", {headers : this.setHeaders()})
@@ -89,6 +100,16 @@ export class Api {
     getTicket(ticket_id){
         return new Promise(resolve => {
             this.http.get(this.url + "api/getTicket/"+ ticket_id, {headers : this.setHeaders()})
+            .map(res => res.json())
+            .subscribe(data => {
+                resolve(data);
+            }, error => {return resolve(this.handleData(error))});
+        });
+    }
+
+    postTicket(data){
+        return new Promise(resolve => {
+            this.http.post(this.url + "api/addTicket", data ,{headers : this.setHeaders()})
             .map(res => res.json())
             .subscribe(data => {
                 resolve(data);
@@ -115,6 +136,8 @@ export class Api {
             }, error => {return resolve(this.handleData(error))});
         });
     }
+
+
     postPushtoken(data){
           return new Promise(resolve => {
               this.http.post(this.url + "api/dispositivos", data ,{headers : this.setHeaders()})
@@ -128,7 +151,7 @@ export class Api {
     pushRegister(){
         let push:any = Push.init({
             android: {
-                senderID: "425679220353",
+                senderID: "600000041642",
                 clearNotifications: 'false',
             },
             ios: {
@@ -169,9 +192,10 @@ export class Api {
         return false;
     }
 
-    savePushData(pushData ){
+    savePushData(pushData){
         this.storage.setJson('pushData', pushData);
     }
+
     putPushData(id, data){
         return new Promise(resolve => {
             this.http.put(this.url + "api/dispositivos/" + id, data ,{headers : this.setHeaders()})

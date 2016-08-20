@@ -1,0 +1,39 @@
+<ion-header>
+  <ion-navbar favorite>
+    <ion-title>Agregar Ticket</ion-title>
+    <ion-buttons end>
+        <button (click)="dismiss()"><ion-icon name="close" ></ion-icon></button>
+    </ion-buttons>
+  </ion-navbar>
+</ion-header>
+<ion-content padding>
+    <ion-list>
+        <ion-item>
+            <ion-label floating>Título</ion-label>
+            <ion-input [(ngModel)]="titulo"></ion-input>
+        </ion-item>
+        <ion-item>
+            <ion-label floating>Contenido</ion-label>
+            <ion-textarea rows="4" [(ngModel)]="contenido"></ion-textarea>
+        </ion-item>
+        <ion-item>
+            <ion-label floating>Categoria</ion-label>
+            <ion-input [(ngModel)]="categoria.nombre" disabled ></ion-input>
+        </ion-item>
+        <ion-item>
+          <ion-label floating>Guardian</ion-label>
+          <ion-select [(ngModel)]="guardian_id">
+            <ion-option *ngFor="let user of usuarios" value="{{user.id}}">{{user.nombre}}</ion-option>
+          </ion-select>
+        </ion-item>
+        <ion-item>
+            <ion-label>Transferible</ion-label>
+            <ion-toggle [(ngModel)]="transferible"></ion-toggle>
+        </ion-item>
+        <ion-item>
+          <ion-label floating>Vencimiento</ion-label>
+          <ion-datetime displayFormat="DDD D de MM de YYYY h:mm A" pickerFormat="D M YYYY h mm A" [(ngModel)]="vencimiento"></ion-datetime>
+        </ion-item>
+    </ion-list>
+    <button block [disabled]="rellenado()" secondary (click)="agregarTicket()"> Agregar Ticket </button>
+</ion-content>
