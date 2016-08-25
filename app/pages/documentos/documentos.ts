@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { NavController,NavParams, ToastController } from 'ionic-angular';
+import { NavController,NavParams, ToastController,AlertController } from 'ionic-angular';
 import {Api} from '../../providers/api/api';
 import {Transfer} from 'ionic-native';
 declare var cordova:any;
@@ -12,7 +12,7 @@ export class DocumentosPage {
     documentos:any;
     categorias:any;
     loading:string = "";
-    constructor(private navCtrl: NavController, params:NavParams, api:Api,private toast:ToastController) {
+    constructor(private navCtrl: NavController, params:NavParams, api:Api,private toast:ToastController, private alert:AlertController) {
         this.api = api;
         this.categoria = params.get('categoria');
         this.api.getDocumentos(this.categoria.id).then((data:any)=>{
@@ -60,7 +60,7 @@ export class DocumentosPage {
             opener,
             {
                 error : (e)=> {
-                    this.toast.create({message:e, duration:1500, position:"bottom"}).present();
+                    this.alert.create({title:"Error", message:'Error status: ' + e.status + ' - Error message: ' + e.message, buttons:["ok"]}).present();
                     this.loading = "";
                 },
                 success :  () => {

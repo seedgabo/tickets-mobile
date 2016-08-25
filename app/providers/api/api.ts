@@ -13,7 +13,7 @@ export class Api {
     user:any={};
     pushData:any;
     constructor(public http: Http) {
-        this.url = "http://192.168.0.27/tickets/public/"
+        // this.url = "http://192.168.0.27/tickets/public/"
         this.initVar();
     }
 

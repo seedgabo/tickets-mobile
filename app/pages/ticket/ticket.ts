@@ -119,7 +119,7 @@ export class TicketPage {
                 headers: headers
             }).then(
                 (entry)  => {
-                    this.toast.create({message:"Archivo Descargado", duration:1500, position:"bottom"}).present();
+                    this.toast.create({message:"Archivo Descargado", duration:5000, position:"bottom"}).present();
                     this.abrirDocClasico(cordova.file.externalRootDirectory + this.ticket.archivo, this.ticket.mime);
                 }
             ). catch(
@@ -230,7 +230,7 @@ export class TicketPage {
             opener,
             {
                 error : (e)=> {
-                    this.toast.create({message:e, duration:1500, position:"bottom"}).present();
+                    this.alert.create({title:"Error", message:'Error status: ' + e.status + ' - Error message: ' + e.message, buttons:["ok"]}).present();
                     this.loading = "";
                 },
                 success :  () => {

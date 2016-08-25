@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { NavController, AlertController } from 'ionic-angular';
+import { NavController, AlertController,LoadingController } from 'ionic-angular';
 import {Api} from '../../providers/api/api';
 import {TabsPage}  from '../tabs/tabs';
 @Component({
@@ -7,12 +7,17 @@ import {TabsPage}  from '../tabs/tabs';
 })
 export class LoginPage {
     api:Api;
-  constructor(private navController: NavController, api:Api,private alert :AlertController) {
+  constructor(private navController: NavController, api:Api,private alert :AlertController, private loading:LoadingController) {
       this.api = api;
 
   }
 
   doLogin(){
+      let loader = this.loading.create({
+          content: "Iniciando Sesión...",
+          duration: 3000
+      });
+      loader.present();
       this.api.doLogin().then((data:any) =>
       {
           if(data.nombre)
@@ -21,12 +26,14 @@ export class LoginPage {
               this.api.saveData();
               this.api.pushRegister();
               this.navController.setRoot(TabsPage);
+              loader.dismiss();
           }
           else
           {
-                this.alert.create({title:"Error",message:"Usuario y Contraseña Invalidos", buttons:["ok"]}).present();
+              loader.dismiss().then(()=>{
+                  this.alert.create({title:"Error",message:"Usuario y Contraseña Invalidos", buttons:["ok"]}).present();
+              });
           }
-            // this.navController.setRoot(HomePage);
       });
   }
 }

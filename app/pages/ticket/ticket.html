@@ -16,7 +16,7 @@
     <ion-card>
         <ion-card-header class="header" text-center>Seguimiento</ion-card-header>
         <ion-list *ngIf="comentarios">
-            <button block (click)="agregarComentario()">Agrega tu Seguimiento</button>
+            <button block secondary (click)="agregarComentario()"><ion-icon name="add"></ion-icon> Agrega tu Seguimiento</button>
             <ion-item-sliding *ngFor="let com of comentarios">
                 <ion-item text-wrap >
                     <p [innerHTML]="com.texto"></p>
