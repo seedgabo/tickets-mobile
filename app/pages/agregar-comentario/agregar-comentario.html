@@ -2,6 +2,7 @@
   <ion-navbar>
     <ion-title>Agregar Seguimiento</ion-title>
     <ion-buttons end>
+        <button (click)="pickFile()"><ion-icon name="cloud-upload"></ion-icon></button>
         <button (click)="dismiss()"><ion-icon name="close"></ion-icon></button>
     </ion-buttons>
   </ion-navbar>
@@ -14,6 +15,10 @@
         <ion-item>
             <ion-label stacked>Contenido</ion-label>
             <ion-textarea rows="6" placeholder="Agregue su contribución..." [(ngModel)]="texto"></ion-textarea>
+        </ion-item>
+        <ion-item *ngIf="archivo != null">
+            <ion-label floating>Clave de Encriptado (Opcional)</ion-label>
+            <ion-input type="password" [(ngModel)]="clave"></ion-input>
         </ion-item>
         <button full (click)="agregarComentario()" [disabled]="texto.length < 5"> Agregar Seguimiento</button>
     </ion-list>

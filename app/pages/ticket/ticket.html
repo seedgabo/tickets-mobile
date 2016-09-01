@@ -1,15 +1,19 @@
 <ion-header>
-    <ion-navbar>
+    <ion-navbar primary>
         <ion-title> {{ ticket.titulo }} </ion-title>
     </ion-navbar>
 </ion-header>
 <ion-content class="ticket">
+    <ion-refresher (ionRefresh)="doRefresh($event)">
+        <ion-refresher-content></ion-refresher-content>
+   </ion-refresher>
     <ion-card>
         <ion-card-header class="header" text-center>{{ticket.titulo}}</ion-card-header>
         <div padding [innerHTML]="ticket.contenido"></div>
         <button clear text-right secondary *ngIf="ticket.archivo && ticket.encriptado == 0" (click)="descargarArchivoTicket()">{{ticket.archivo}}</button>
         <button clear text-right secondary *ngIf="ticket.archivo && ticket.encriptado == 1" (click)="preguntarClave()"><ion-icon name="lock"></ion-icon>{{ticket.archivo}}</button>
         <p text-right *ngIf="ticket.user"><b>Usuario:</b> {{ticket.user.nombre}}</p>
+        <p text-right *ngIf="ticket.guardian"><b>Responsable:</b> {{ticket.guardian.nombre}}</p>
         <p text-right ><b>{{ticket.created_at | date: 'medium' }}</b></p>
 
     </ion-card>

@@ -1,9 +1,10 @@
 import { Component } from '@angular/core';
-import { NavController,NavParams,ModalController,ToastController,AlertController } from 'ionic-angular';
+import {Platform, NavController,NavParams,ModalController,ToastController,AlertController } from 'ionic-angular';
 import {Transfer} from 'ionic-native';
 import {Api} from '../../providers/api/api';
 import {AgregarComentarioPage} from '../agregar-comentario/agregar-comentario';
 declare var cordova:any;
+declare var window:any;
 @Component({
     templateUrl: 'build/pages/ticket/ticket.html',
 })
@@ -12,7 +13,7 @@ export class TicketPage {
     ticket:any;
     comentarios:any;
     loading:string="";
-    constructor(private navCtrl: NavController, params:NavParams, api:Api, private modal:ModalController, private toast:ToastController,private alert:AlertController)
+    constructor(private platform:Platform, private navCtrl: NavController, params:NavParams, api:Api, private modal:ModalController, private toast:ToastController,private alert:AlertController)
     {
         this.api = api;
         this.ticket = params.get("ticket");
@@ -25,6 +26,14 @@ export class TicketPage {
         this.api.getTicket(this.ticket.id).then((data:any)=>{
             this.ticket = data.ticket;
             this.comentarios = data.comentarios;
+        })
+    }
+
+    doRefresh(refresher){
+        this.api.getTicket(this.ticket.id).then((data:any)=>{
+            this.ticket = data.ticket;
+            this.comentarios = data.comentarios;
+            refresher.complete();
         })
     }
 
@@ -50,6 +59,11 @@ export class TicketPage {
 
     descargarArchivoTicket()
     {
+        let dir;
+        if (this.platform.is('android'))
+            dir = cordova.file.externalApplicationStorageDirectory;
+        else
+            dir = cordova.file.documentsDirectory;
         let fileTransfer = new Transfer();
         let uri = encodeURI(this.ticket.path) ;
         let headers ={};
@@ -57,18 +71,18 @@ export class TicketPage {
         this.loading = "Descargando Archivo";
         fileTransfer.download(
             uri,
-            cordova.file.externalRootDirectory + this.ticket.archivo,
+            dir + this.ticket.archivo,
             true,
             {
                 headers: headers
             }).then(
                 (entry)  => {
                     this.toast.create({message:"Archivo Descargado", duration:1500, position:"bottom"}).present();
-                    this.abrirDocClasico(cordova.file.externalRootDirectory + this.ticket.archivo, this.ticket.mime);
+                    this.abrirDocClasico(dir + this.ticket.archivo, this.ticket.mime);
                 }
             ). catch(
                 (error) => {
-                    this.toast.create({message:error, duration:1500, position:"bottom"}).present();
+                    this.toast.create({message:error.message, duration:6000, position:"bottom"}).present();
                     this.loading = "";
                 }
             );
@@ -106,6 +120,11 @@ export class TicketPage {
 
     descargarArchivoEncriptado(clave)
     {
+        let dir;
+        if (this.platform.is('android'))
+            dir = cordova.file.externalApplicationStorageDirectory;
+        else
+            dir = cordova.file.documentsDirectory;
         let fileTransfer = new Transfer();
         let uri = encodeURI(this.api.url + "api/getEncryptedFile/ticket/" + this.ticket.id + "/" + clave) ;
         let headers ={};
@@ -113,18 +132,18 @@ export class TicketPage {
         this.loading = "Descargando Archivo";
         fileTransfer.download(
             uri,
-            cordova.file.externalRootDirectory + this.ticket.archivo,
+            dir + this.ticket.archivo,
             true,
             {
                 headers: headers
             }).then(
                 (entry)  => {
                     this.toast.create({message:"Archivo Descargado", duration:5000, position:"bottom"}).present();
-                    this.abrirDocClasico(cordova.file.externalRootDirectory + this.ticket.archivo, this.ticket.mime);
+                    this.abrirDocClasico(dir + this.ticket.archivo, this.ticket.mime);
                 }
             ). catch(
                 (error) => {
-                    this.toast.create({message:error, duration:1500, position:"bottom"}).present();
+                    this.toast.create({message:error.message, duration:6000, position:"bottom"}).present();
                     this.loading = "";
                 }
             );
@@ -136,6 +155,11 @@ export class TicketPage {
 
     descargarArchivoComentario(comentario)
     {
+        let dir;
+        if (this.platform.is('android'))
+            dir = cordova.file.externalApplicationStorageDirectory;
+        else
+            dir = cordova.file.documentsDirectory;
         let fileTransfer = new Transfer();
         let uri = encodeURI(comentario.path) ;
         let headers ={};
@@ -143,18 +167,18 @@ export class TicketPage {
         this.loading = "Descargando Archivo";
         fileTransfer.download(
             uri,
-            cordova.file.externalRootDirectory + comentario.archivo,
+            dir + comentario.archivo,
             true,
             {
                 headers: headers
             }).then(
                 (entry)  => {
                     this.toast.create({message:"Archivo Descargado", duration:1500, position:"bottom"}).present();
-                    this.abrirDocClasico(cordova.file.externalRootDirectory + comentario.archivo, comentario.mime);
+                    this.abrirDocClasico(dir + comentario.archivo, comentario.mime);
                 }
             ). catch(
                 (error) => {
-                    this.toast.create({message:error, duration:1500, position:"bottom"}).present();
+                    this.toast.create({message:error.message, duration:6000, position:"bottom"}).present();
                     this.loading = "";
                 }
             );
@@ -192,6 +216,11 @@ export class TicketPage {
 
     descargarArchivoComentarioEncriptado(comentario,clave)
     {
+        let dir;
+        if (this.platform.is('android'))
+            dir = cordova.file.externalApplicationStorageDirectory;
+        else
+            dir = cordova.file.documentsDirectory;
         let fileTransfer = new Transfer();
         let uri = encodeURI(this.api.url + "api/getEncryptedFile/comentario/" + comentario.id + "/" + clave) ;
         let headers ={};
@@ -199,18 +228,18 @@ export class TicketPage {
         this.loading = "Descargando Archivo";
         fileTransfer.download(
             uri,
-            cordova.file.externalRootDirectory + comentario.archivo,
+            dir + comentario.archivo,
             true,
             {
                 headers: headers
             }).then(
                 (entry)  => {
                     this.toast.create({message:"Archivo Descargado", duration:1500, position:"bottom"}).present();
-                    this.abrirDocClasico(cordova.file.externalRootDirectory + comentario.archivo, comentario.mime);
+                    this.abrirDocClasico(dir + comentario.archivo, comentario.mime);
                 }
             ). catch(
                 (error) => {
-                    this.toast.create({message:error, duration:1500, position:"bottom"}).present();
+                    this.toast.create({message:error.message, duration:6000, position:"bottom"}).present();
                     this.loading = "";
                 }
             );
@@ -230,7 +259,10 @@ export class TicketPage {
             opener,
             {
                 error : (e)=> {
-                    this.alert.create({title:"Error", message:'Error status: ' + e.status + ' - Error message: ' + e.message, buttons:["ok"]}).present();
+                    if(e.status == 9)
+                        this.alert.create({title:"Error", message:"Debe Descargar una aplicación para abrir este archivo", buttons:["ok"]}).present();
+                    else
+                        this.alert.create({title:"Error", message:'Error status: ' + e.status + ' - Error message: ' + e.message, buttons:["ok"]}).present();
                     this.loading = "";
                 },
                 success :  () => {

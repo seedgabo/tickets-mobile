@@ -1,4 +1,33 @@
-<ion-tabs tabsl tabsLayout="icon-left" primary >
+<ion-menu [content]="mycontent">
+  <ion-content>
+ <div class="logo-header">
+    <center>
+        <img src="img/logo-small.png" alt="logo">
+    </center>
+ </div>
+    <ion-list>
+        <ion-list-header><ion-icon name="menu" item-left></ion-icon>  Menu </ion-list-header>
+        <button ion-item menuClose (click)="openBuscador()">
+            <ion-icon name="search" primary item-right></ion-icon> Buscar
+        </button>
+        <button ion-item menuClose (click)="MisTickets()">
+            <ion-icon name="pricetag" item-right primary></ion-icon> Mis Casos
+        </button>
+        <button ion-item menuClose (click)="TicketTodos()">
+            <ion-icon name="pricetag" item-right primary></ion-icon> Todos Los Casos
+        </button>
+        <button ion-item menuClose  disabled>
+            <ion-icon name="pricetag" item-right primary ></ion-icon> Casos Abiertos
+        </button>
+        <ion-list-header><ion-icon name="settings" item-left></ion-icon> Opciones</ion-list-header>
+        <button ion-item menuClose (click)="toLogin()" >
+            <ion-icon name="log-out" item-right  primary></ion-icon> Cerrar Sesión
+        </button>
+    </ion-list>
+  </ion-content>
+</ion-menu>
+
+<ion-tabs #mycontent tabsl tabsLayout="icon-left" primary >
   <ion-tab [root]="tab1Root" tabTitle="Tickets" tabIcon="pricetags"></ion-tab>
   <ion-tab [root]="tab2Root" tabTitle="Documentos" tabIcon="folder-open"></ion-tab>
   <!-- <ion-tab [root]="tab3Root" tabTitle="Contact" tabIcon="contacts"></ion-tab> -->

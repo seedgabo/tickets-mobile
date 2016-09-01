@@ -1,6 +1,6 @@
 import {Injectable} from '@angular/core';
 import {Storage, SqlStorage} from 'ionic-angular';
-import {Push} from 'ionic-native';
+import {Push, Transfer} from 'ionic-native';
 import {Http, Headers} from '@angular/http';
 import {Observable} from 'rxjs/Observable';
 import 'rxjs/add/operator/map';
@@ -13,7 +13,7 @@ export class Api {
     user:any={};
     pushData:any;
     constructor(public http: Http) {
-        // this.url = "http://192.168.0.27/tickets/public/"
+        // this.url = "http://192.168.0.12/tickets/public/"
         this.initVar();
     }
 
@@ -100,6 +100,56 @@ export class Api {
     getTicket(ticket_id){
         return new Promise(resolve => {
             this.http.get(this.url + "api/getTicket/"+ ticket_id, {headers : this.setHeaders()})
+            .map(res => res.json())
+            .subscribe(data => {
+                resolve(data);
+            }, error => {return resolve(this.handleData(error))});
+        });
+    }
+
+    getMisTickets(){
+        return new Promise(resolve => {
+            this.http.get(this.url + "api/getMisTickets", {headers : this.setHeaders()})
+            .map(res => res.json())
+            .subscribe(data => {
+                resolve(data);
+            }, error => {return resolve(this.handleData(error))});
+        });
+    }
+
+    getAllTickets(){
+        return new Promise(resolve => {
+            this.http.get(this.url + "api/getAllTickets", {headers : this.setHeaders()})
+            .map(res => res.json())
+            .subscribe(data => {
+                resolve(data);
+            }, error => {return resolve(this.handleData(error))});
+        });
+    }
+
+    getTicketsAbiertos(){
+        return new Promise(resolve => {
+            this.http.get(this.url + "api/getTicketsAbiertos", {headers : this.setHeaders()})
+            .map(res => res.json())
+            .subscribe(data => {
+                resolve(data);
+            }, error => {return resolve(this.handleData(error))});
+        });
+    }
+
+    getTicketsVencidos(){
+        return new Promise(resolve => {
+            this.http.get(this.url + "api/getTicketsVencidos", {headers : this.setHeaders()})
+            .map(res => res.json())
+            .subscribe(data => {
+                resolve(data);
+            }, error => {return resolve(this.handleData(error))});
+        });
+    }
+
+    getSearch(query){
+        return new Promise(resolve => {
+            this.http.get(this.url + "api/search?query="+ query, {headers : this.setHeaders()})
             .map(res => res.json())
             .subscribe(data => {
                 resolve(data);
@@ -207,6 +257,27 @@ export class Api {
     }
 
 
+    postArchivoTicket(data, fileurl, nombre){
+        const fileTransfer = new Transfer();
+        var options = {
+           fileKey: 'archivo',
+           fileName: decodeURIComponent(nombre),
+           headers: { "Authorization" : "Basic " + btoa(this.username + ":" + this.password) },
+           params: data
+        }
+        return fileTransfer.upload(fileurl, this.url + "api/addTicket", options, true)
+    }
+
+    postArchivoComentarioTicket(ticket_id,data, fileurl,nombre){
+        const fileTransfer = new Transfer();
+        var options = {
+           fileKey: 'archivo',
+           fileName: decodeURIComponent(nombre),
+           headers: { "Authorization" : "Basic " + btoa(this.username + ":" + this.password) },
+           params: data
+        }
+        return fileTransfer.upload(fileurl, this.url + "api/addComentario/"+ticket_id, options, true)
+    }
 
     private setHeaders(){
         let headers = new Headers();

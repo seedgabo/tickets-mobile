@@ -1,9 +1,11 @@
+
 <ion-header>
   <ion-navbar primary>
-    <ion-title><ion-icon name="pricetags"></ion-icon> Casos </ion-title>
-    <ion-buttons end>
-        <button (click)="presentPopover($event)"><ion-icon name="more"></ion-icon></button>
-    </ion-buttons>
+     <button menuToggle><ion-icon name="menu"></ion-icon></button>
+    <ion-title *ngIf="!buscar">
+        Casos
+    </ion-title>
+     <ion-searchbar *ngIf="buscar"></ion-searchbar>
   </ion-navbar>
 </ion-header>
 

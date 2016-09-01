@@ -1,12 +1,17 @@
 <ion-header>
 
     <ion-navbar primary>
-        <ion-title>{{ categoria.nombre }}</ion-title>
+        <ion-title>{{ categoria.nombre }}
+
+        </ion-title>
     </ion-navbar>
 </ion-header>
 
 
-<ion-content >
+<ion-content>
+    <ion-refresher (ionRefresh)="doRefresh($event)">
+        <ion-refresher-content></ion-refresher-content>
+      </ion-refresher>
     <ion-list *ngIf="categorias && categorias.length > 0">
         <ion-list-header>SubCategorias</ion-list-header>
         <button ion-item *ngFor="let cat of categorias" (click)="navigateToCat(cat)">
@@ -16,11 +21,11 @@
     </ion-list>
     <ion-list>
         <ion-list-header>Casos</ion-list-header>
-        <button ion-item *ngFor="let ticket of tickets" (click)="navigate(ticket)">
-            <h2 text-center text-uppercase><ion-icon name="pricetag" primary item-left></ion-icon> {{ticket.titulo}} </h2>
+        <button ion-item *ngFor="let ticket of tickets" (click)="navigate(ticket)" [ngClass]="{'vencido': ticket.estado == 'vencido'}">
+            <h3 text-center text-uppercase> {{ticket.titulo}} </h3>
             <small ><b primary>Usuario: </b>{{ticket.user.nombre}}</small><br>
             <small ><b secondary>Responsable:</b> {{ticket.guardian.nombre}}</small>
-            <ion-badge item-right>{{ticket.comentarios_count}}</ion-badge> <br>
+            <ion-badge item-right>{{ticket.comentarios_count}}</ion-badge>
             <p text-right>Vence: {{ticket.vencimiento | date:'medium'}}</p>
         </button>
     </ion-list>

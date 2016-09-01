@@ -1,2 +1,21 @@
 .home {
 }
+.logo-header{
+    img{
+        height: 70px;
+        display: inline;
+        margin: 0 auto;
+    }
+    background-color: color($colors,'primary');
+}
+
+
+.vencido{
+    animation: vencido 1s infinite linear;
+    animation-direction: alternate;;
+}
+
+@keyframes vencido {
+    from {background-color: color($colors,primary); color:white;}
+    to {background-color: white;}
+}

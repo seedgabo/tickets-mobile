@@ -1,5 +1,5 @@
 import {Component} from '@angular/core';
-import {NavController, PopoverController} from 'ionic-angular';
+import {NavController} from 'ionic-angular';
 import {Api} from '../../providers/api/api';
 import {CategoriaPage} from '../categoria/categoria';
 import {LoginPage} from '../login/login';
@@ -10,7 +10,7 @@ import {PopoverPage} from '../popover/popover';
 export class HomePage {
     api:Api;
     categorias:any;
-    constructor(private navCtrl: NavController, api:Api, private popoverCtrl:PopoverController) {
+    constructor(private navCtrl: NavController, api:Api) {
         this.api = api;
         this.getCategorias();
     }
@@ -27,24 +27,4 @@ export class HomePage {
         console.log("abrir Categoria: " + cat.nombre);
     }
 
-    toLogin(){
-        let root:NavController = this.navCtrl.parent.parent;
-        console.log(root);
-        root.setRoot(LoginPage);
-    }
-
-    presentPopover(ev) {
-        let popover = this.popoverCtrl.create(PopoverPage);
-        popover.onDidDismiss((data) => {
-            if(data.action == 'logout')
-            {
-                this.toLogin();
-            }
-            if(data.action == 'refresh')
-            {
-                this.getCategorias();
-            }
-          });
-        popover.present({ev: ev});
-    }
 }

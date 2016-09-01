@@ -8,6 +8,9 @@
 
 
 <ion-content>
+    <ion-refresher (ionRefresh)="doRefresh($event)">
+        <ion-refresher-content></ion-refresher-content>
+    </ion-refresher>
     <center *ngIf="loading != ''"><ion-spinner></ion-spinner><br> {{loading}}</center>
     <ion-list *ngIf="categorias && categorias.length > 0">
         <ion-list-header>Categorias</ion-list-header>

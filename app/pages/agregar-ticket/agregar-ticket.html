@@ -2,6 +2,7 @@
   <ion-navbar favorite>
     <ion-title>Agregar Ticket</ion-title>
     <ion-buttons end>
+        <button (click)="pickFile()"><ion-icon name="cloud-upload"></ion-icon></button>
         <button (click)="dismiss()"><ion-icon name="close" ></ion-icon></button>
     </ion-buttons>
   </ion-navbar>
@@ -15,6 +16,10 @@
         <ion-item>
             <ion-label floating>Contenido</ion-label>
             <ion-textarea rows="4" [(ngModel)]="contenido"></ion-textarea>
+        </ion-item>
+        <ion-item *ngIf="archivo != null">
+            <ion-label floating>Clave De Encriptado (Opcional)</ion-label>
+            <ion-input [(ngModel)]="clave" type="password"></ion-input>
         </ion-item>
         <ion-item>
             <ion-label floating>Categoria</ion-label>
@@ -35,5 +40,5 @@
           <ion-datetime displayFormat="DDD D de MM de YYYY h:mm A" pickerFormat="D M YYYY h mm A" [(ngModel)]="vencimiento"></ion-datetime>
         </ion-item>
     </ion-list>
-    <button block [disabled]="rellenado()" secondary (click)="agregarTicket()"> Agregar Ticket </button>
+    <button block [disabled]="rellenado()" secondary (click)="agregarTicket()"> Agregar Ticket  {{archivo != null ? 'con Archivo' : '' }} </button>
 </ion-content>
