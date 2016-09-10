@@ -38,7 +38,6 @@ export class CategoriaPage {
 
     navigateToCat(cat){
         this.navCtrl.push(CategoriaPage,{categoria: cat});
-        console.log("abrir Categoria: " + cat.nombre);
     }
 
     agregarTicket(categoria){

@@ -23,10 +23,12 @@
         </ion-item>
         <ion-item>
             <ion-label floating>Categoria</ion-label>
-            <ion-input [(ngModel)]="categoria.nombre" disabled ></ion-input>
+            <ion-select [(ngModel)]="categoria_id" (ionChange)="reloadUsuarios()">
+              <ion-option *ngFor="let cat of categorias" value="{{cat.id}}">{{cat.nombre}}</ion-option>
+            </ion-select>
         </ion-item>
         <ion-item>
-          <ion-label floating>Guardian</ion-label>
+          <ion-label floating>Responsable</ion-label>
           <ion-select [(ngModel)]="guardian_id">
             <ion-option *ngFor="let user of usuarios" value="{{user.id}}">{{user.nombre}}</ion-option>
           </ion-select>

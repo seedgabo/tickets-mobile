@@ -1,0 +1,21 @@
+.caso {
+
+}
+
+
+ion-card-header[primary]{
+    background-color: color($colors,primary);
+    color: white;
+}
+ion-card-header[secondary]{
+    background-color: color($colors,secondary);
+    color: white;
+}
+ion-card-header[favorite]{
+    background-color: color($colors,favorite);
+    color: white;
+}
+ion-card-header[royal]{
+    background-color: color($colors,royal);
+    color: white;
+}

@@ -3,13 +3,15 @@ import {Storage, SqlStorage} from 'ionic-angular';
 import {Push, Transfer} from 'ionic-native';
 import {Http, Headers} from '@angular/http';
 import {Observable} from 'rxjs/Observable';
-import 'rxjs/add/operator/map';
+import 'rxjs/add/operator/map';W
 
 @Injectable()
 export class Api {
 
     storage = new Storage(SqlStorage);
-    username:string; password:string;url:string="http://190.85.8.84:8080/";token:string;
+    username:string; password:string;
+    url:string="http://190.85.8.84:8080/";
+    token:string;
     user:any={};
     pushData:any;
     constructor(public http: Http) {
@@ -34,6 +36,10 @@ export class Api {
         this.storage.set("user",JSON.stringify(user));
     }
 
+    urlAuth(uri){
+        return "http://" +this.username +":" + this.password + "@190.85.8.84:8080/" + uri;
+    }
+
 
     doLogin(){
         return new Promise(resolve => {
@@ -50,6 +56,16 @@ export class Api {
     getCategorias(){
         return new Promise(resolve => {
             this.http.get(this.url + "api/getCategorias", {headers : this.setHeaders()})
+            .map(res => res.json())
+            .subscribe(data => {
+                resolve(data);
+            }, error => {return resolve(this.handleData(error))});
+        });
+    }
+
+    getAllCategorias(){
+        return new Promise(resolve => {
+            this.http.get(this.url + "api/getAllCategorias", {headers : this.setHeaders()})
             .map(res => res.json())
             .subscribe(data => {
                 resolve(data);
@@ -150,6 +166,47 @@ export class Api {
     getSearch(query){
         return new Promise(resolve => {
             this.http.get(this.url + "api/search?query="+ query, {headers : this.setHeaders()})
+            .map(res => res.json())
+            .subscribe(data => {
+                resolve(data);
+            }, error => {return resolve(this.handleData(error))});
+        });
+    }
+
+
+    getPacientes(query= ""){
+        return new Promise(resolve => {
+            this.http.get(this.url + "api/getPacientes" + query, {headers : this.setHeaders()})
+            .map(res => res.json())
+            .subscribe(data => {
+                resolve(data);
+            }, error => {return resolve(this.handleData(error))});
+        });
+    }
+
+    getCaso(caso_id){
+        return new Promise(resolve => {
+            this.http.get(this.url + "api/getCaso/" +caso_id, {headers : this.setHeaders()})
+            .map(res => res.json())
+            .subscribe(data => {
+                resolve(data);
+            }, error => {return resolve(this.handleData(error))});
+        });
+    }
+
+    getIncapacidad(incapacidad_id){
+        return new Promise(resolve => {
+            this.http.get(this.url + "api/getIncapacidad/" +incapacidad_id, {headers : this.setHeaders()})
+            .map(res => res.json())
+            .subscribe(data => {
+                resolve(data);
+            }, error => {return resolve(this.handleData(error))});
+        });
+    }
+
+    iniciarSeguimiento(caso_id){
+        return new Promise(resolve => {
+            this.http.get(this.url + "api/iniciar-seguimiento/" + caso_id, {headers : this.setHeaders()})
             .map(res => res.json())
             .subscribe(data => {
                 resolve(data);

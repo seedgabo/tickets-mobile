@@ -1,7 +1,8 @@
 import {Component} from '@angular/core';
-import {NavController} from 'ionic-angular';
+import {NavController, ModalController} from 'ionic-angular';
 import {Api} from '../../providers/api/api';
 import {CategoriaPage} from '../categoria/categoria';
+import {AgregarTicketPage} from '../agregar-ticket/agregar-ticket';
 import {LoginPage} from '../login/login';
 import {PopoverPage} from '../popover/popover';
 @Component({
@@ -10,7 +11,7 @@ import {PopoverPage} from '../popover/popover';
 export class HomePage {
     api:Api;
     categorias:any;
-    constructor(private navCtrl: NavController, api:Api) {
+    constructor(private navCtrl: NavController, api:Api, private modal:ModalController) {
         this.api = api;
         this.getCategorias();
     }
@@ -25,6 +26,11 @@ export class HomePage {
     navigate(cat){
         this.navCtrl.push(CategoriaPage,{categoria: cat});
         console.log("abrir Categoria: " + cat.nombre);
+    }
+
+    agregarTicket(){
+        let modal =this.modal.create(AgregarTicketPage);
+        modal.present();
     }
 
 }

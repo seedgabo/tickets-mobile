@@ -7,6 +7,7 @@ import {LoginPage} from '../login/login';
 import {MisTicketsPage} from '../mis-tickets/mis-tickets';
 import {TicketsTodosPage} from '../tickets-todos/tickets-todos';
 import {BuscadorPage} from '../buscador/buscador';
+import {Api} from '../../providers/api/api';
 @Component({
     templateUrl: 'build/pages/tabs/tabs.html'
 })
@@ -16,7 +17,7 @@ export class TabsPage {
     private tab2Root: any;
     private tab3Root: any;
 
-    constructor(private navCtrl: NavController) {
+    constructor(private navCtrl: NavController, private api:Api) {
         this.tab1Root = HomePage;
         this.tab2Root = AboutPage;
         this.tab3Root = ContactPage;

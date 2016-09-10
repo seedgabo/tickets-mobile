@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 import {Platform, NavController,NavParams,ModalController,ToastController,AlertController } from 'ionic-angular';
-import {Transfer} from 'ionic-native';
+import {Transfer, InAppBrowser} from 'ionic-native';
 import {Api} from '../../providers/api/api';
 import {AgregarComentarioPage} from '../agregar-comentario/agregar-comentario';
 declare var cordova:any;
@@ -57,7 +57,7 @@ export class TicketPage {
 
     // Descargas de ticket
 
-    descargarArchivoTicket()
+    descargarArchivoTicketold()
     {
         let dir;
         if (this.platform.is('android'))
@@ -86,6 +86,11 @@ export class TicketPage {
                     this.loading = "";
                 }
             );
+    }
+
+    descargarArchivoTicket(){
+        let url = encodeURI(this.ticket.path) ;
+        let browser = InAppBrowser.open(url, '_system','hidden=yes');
     }
 
     preguntarClave()
@@ -118,7 +123,7 @@ export class TicketPage {
         alert.present();
     }
 
-    descargarArchivoEncriptado(clave)
+    descargarArchivoEncriptadoold(clave)
     {
         let dir;
         if (this.platform.is('android'))
@@ -149,11 +154,15 @@ export class TicketPage {
             );
     }
 
+    descargarArchivoEncriptado(clave){
+        let url = encodeURI(this.api.urlAuth("api/getEncryptedFile/ticket/" + this.ticket.id + "/" + clave)) ;
+        let browser = InAppBrowser.open(url, '_system','hidden=yes');
+    }
 
 
     // Descargas de Comentarios
 
-    descargarArchivoComentario(comentario)
+    descargarArchivoComentarioold(comentario)
     {
         let dir;
         if (this.platform.is('android'))
@@ -182,6 +191,12 @@ export class TicketPage {
                     this.loading = "";
                 }
             );
+    }
+
+
+    descargarArchivoComentario(comentario){
+        let url = encodeURI(comentario.path);
+        let browser = InAppBrowser.open(url, '_system','hidden=yes');
     }
 
     preguntarClaveComentario(comentario)
@@ -214,7 +229,11 @@ export class TicketPage {
         alert.present();
     }
 
-    descargarArchivoComentarioEncriptado(comentario,clave)
+    descargarArchivoComentarioEncriptado(comentario,clave){
+        let url = encodeURI(this.api.urlAuth("api/getEncryptedFile/comentario/" + comentario.id + "/" + clave)) ;
+        let browser = InAppBrowser.open(url, '_system','hidden=yes');
+    }
+    descargarArchivoComentarioEncriptadoold(comentario,clave)
     {
         let dir;
         if (this.platform.is('android'))

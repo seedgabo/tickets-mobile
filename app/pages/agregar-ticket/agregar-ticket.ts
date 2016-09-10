@@ -9,26 +9,38 @@ declare var fileChooser:any;
 export class AgregarTicketPage {
 
     api:Api;
-    categoria:any;
+    categorias:any;
     usuarios:any;
     titulo:string="";
     contenido:string="";
     guardian_id:string="";
     transferible:boolean=true;
+    categoria_id:any;
     vencimiento:string = new Date(new Date().getTime() + 60 * 60 * 24 * 1000).toISOString();
     nombre:string="";
     clave:string="";
     archivo:string = null;
     constructor(private navCtrl: NavController, private viewctrl:ViewController, api:Api,params:NavParams,private loading:LoadingController, private alert:AlertController) {
-        this.categoria = params.get('categoria');
         this.api = api;
-        this.getUsuarios();
+        this.getCategorias();
     }
 
-    getUsuarios(){
-        this.api.getUsuariosCategoria(this.categoria.id).then((data:any)=>{
+    getUsuarios(categoria_id){
+        this.api.getUsuariosCategoria(categoria_id).then((data:any)=>{
             this.usuarios = data;
+            if(data[0])
+                this.guardian_id =  data[0].id;
         });
+    }
+
+    getCategorias(){
+        this.api.getAllCategorias().then((data)=>{
+            this.categorias = data;
+        });
+    }
+
+    reloadUsuarios(){
+         this.getUsuarios(this.categoria_id)
     }
 
     dismiss(){
@@ -40,7 +52,7 @@ export class AgregarTicketPage {
         loading.present();
         if(this.archivo ==null)
         {
-            let data = `titulo=${this.titulo}&contenido=${this.contenido}&categoria_id=${this.categoria.id}&guardian_id=${this.guardian_id}&vencimiento=${this.vencimiento}&transferible=${this.transferible}`;
+            let data = `titulo=${this.titulo}&contenido=${this.contenido}&categoria_id=${this.categoria_id}&guardian_id=${this.guardian_id}&vencimiento=${this.vencimiento}&transferible=${this.transferible}`;
             this.api.postTicket(data).then((data)=>{
                 loading.dismiss().then(()=>{
                     this.viewctrl.dismiss({agregado: true});
@@ -52,7 +64,7 @@ export class AgregarTicketPage {
             let data:any = {};
             data.titulo = this.titulo;
             data.contenido = this.contenido;
-            data.categoria_id = this.categoria.id;
+            data.categoria_id = this.categoria_id;
             data.guardian_id = this.guardian_id;
             data.vencimiento = this.vencimiento;
             data.transferible = this.transferible;

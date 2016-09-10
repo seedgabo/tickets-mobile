@@ -14,7 +14,7 @@
         <button clear text-right secondary *ngIf="ticket.archivo && ticket.encriptado == 1" (click)="preguntarClave()"><ion-icon name="lock"></ion-icon>{{ticket.archivo}}</button>
         <p text-right *ngIf="ticket.user"><b>Usuario:</b> {{ticket.user.nombre}}</p>
         <p text-right *ngIf="ticket.guardian"><b>Responsable:</b> {{ticket.guardian.nombre}}</p>
-        <p text-right ><b>{{ticket.created_at | date: 'medium' }}</b></p>
+        <p text-right ><b>{{ticket.created_at }}</b></p>
 
     </ion-card>
     <ion-card>
@@ -27,7 +27,7 @@
                     <button clear text-right  secondary (click)="descargarArchivoComentario(com)" *ngIf="com.archivo && com.encriptado == 0">{{com.archivo}}</button>
                     <button clear text-right  secondary (click)="preguntarClaveComentario(com)" *ngIf="com.archivo && com.encriptado == 1"><ion-icon name="lock"></ion-icon> {{com.archivo}}</button>
                     <p text-right *ngIf="com.user"><b>Por: </b> {{com.user.nombre}} </p>
-                    <p text-right><b>{{ com.created_at | date : 'medium' }}</b></p>
+                    <p text-right><b>{{ com.created_at }}</b></p>
 
                 </ion-item>
                 <ion-item-options side="right">

@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
 import {Platform, NavController,NavParams, ToastController,AlertController } from 'ionic-angular';
 import {Api} from '../../providers/api/api';
-import {Transfer} from 'ionic-native';
+import {Transfer,InAppBrowser} from 'ionic-native';
 declare var cordova:any;
 declare var window:any;
 @Component({
@@ -39,6 +39,10 @@ export class DocumentosPage {
     }
 
     descargarDocumento(documento){
+        let url =encodeURI(this.api.urlAuth("api/getDocumento/" + documento.id));
+        let browser = InAppBrowser.open(url, '_system','hidden=yes');
+    }
+    descargarDocumentoprev(documento){
         let dir;
         if (this.platform.is('android'))
             dir = cordova.file.externalApplicationStorageDirectory;
