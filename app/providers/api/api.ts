@@ -1,21 +1,21 @@
 import {Injectable} from '@angular/core';
-import {Storage, SqlStorage} from 'ionic-angular';
+import {Storage, SqlStorage, Platform} from 'ionic-angular';
 import {Push, Transfer} from 'ionic-native';
 import {Http, Headers} from '@angular/http';
 import {Observable} from 'rxjs/Observable';
-import 'rxjs/add/operator/map';W
+import 'rxjs/add/operator/map';
 
 @Injectable()
 export class Api {
 
     storage = new Storage(SqlStorage);
-    username:string; password:string;
-    url:string="http://190.85.8.84:8080/";
+    username:string;
+    password:string;
     token:string;
+    url:string = 'http://seguimiento.duflosa.com:8080/' ;
     user:any={};
     pushData:any;
-    constructor(public http: Http) {
-        // this.url = "http://192.168.0.12/tickets/public/"
+    constructor(public http: Http, private platform:Platform) {
         this.initVar();
     }
 
@@ -37,7 +37,7 @@ export class Api {
     }
 
     urlAuth(uri){
-        return "http://" +this.username +":" + this.password + "@190.85.8.84:8080/" + uri;
+        return 'http://seguimiento.duflosa.com:8080/' + uri;
     }
 
 
@@ -48,7 +48,7 @@ export class Api {
             .subscribe(data => {
                 resolve(data);
             }, error => {
-                resolve(error);
+                return resolve(this.handleData(error));
             });
         });
     }
@@ -59,7 +59,19 @@ export class Api {
             .map(res => res.json())
             .subscribe(data => {
                 resolve(data);
-            }, error => {return resolve(this.handleData(error))});
+            }, error => {return resolve(this.handleData(error));
+            });
+        });
+    }
+
+    getUsuarios(){
+        return new Promise(resolve => {
+            this.http.get(this.url + "api/getUsuarios", {headers : this.setHeaders()})
+            .map(res => res.json())
+            .subscribe(data => {
+                resolve(data);
+            }, error => {return resolve(this.handleData(error));
+            });
         });
     }
 
@@ -173,7 +185,38 @@ export class Api {
         });
     }
 
+    getNotificaciones(){
+        return new Promise(resolve => {
+            this.http.get(this.url + "api/getNotificaciones", {headers : this.setHeaders()})
+            .map(res => res.json())
+            .subscribe(data => {
+                resolve(data);
+            }, error => {return resolve(this.handleData(error))});
+        });
+    }
 
+    leerNotificacion(id)
+    {
+        return new Promise(resolve => {
+            this.http.get(this.url + "api/notificacion/"+ id + "/leida", {headers : this.setHeaders()})
+            .map(res => res.json())
+            .subscribe(data => {
+                resolve(data);
+            }, error => {return resolve(this.handleData(error))});
+        });
+    }
+
+
+    desleerNotificacion(id)
+    {
+        return new Promise(resolve => {
+            this.http.get(this.url + "api/notificacion/"+ id + "/noleida", {headers : this.setHeaders()})
+            .map(res => res.json())
+            .subscribe(data => {
+                resolve(data);
+            }, error => {return resolve(this.handleData(error))});
+        });
+    }
     getPacientes(query= ""){
         return new Promise(resolve => {
             this.http.get(this.url + "api/getPacientes" + query, {headers : this.setHeaders()})
@@ -234,6 +277,28 @@ export class Api {
         });
     }
 
+    postAlerta(data){
+        return new Promise(resolve => {
+            this.http.post(this.url + "api/addAlerta", data ,{headers : this.setHeaders()})
+            .map(res => res.json())
+            .subscribe(data => {
+                resolve(data);
+            }, error => {return resolve(this.handleData(error))});
+        });
+    }
+
+    putTicket(data, id){
+        return new Promise(resolve => {
+            this.http.put(this.url + "api/editTicket/" + id, data ,{headers : this.setHeaders()})
+            .map(res => res.json())
+            .subscribe(data => {
+                resolve(data);
+            }, error => {return resolve(this.handleData(error))});
+        });
+    }
+
+
+
     deleteComenarioTicket(comentario_id){
         return new Promise(resolve => {
             this.http.delete(this.url + "api/deleteComenarioTicket/"+ comentario_id, {headers : this.setHeaders()})
@@ -270,11 +335,13 @@ export class Api {
         });
 
         if (typeof push.error === 'undefined' || push.error === null){
-
+            let body;
             push.on('registration', (data) => {
                 console.log(data.registrationId);
-
-                let body = "token=" + data.registrationId + "&plataforma=android";
+                if(this.platform.is('android'))
+                     body = "token=" + data.registrationId + "&plataforma=android";
+                else
+                    body = "token=" + data.registrationId + "&plataforma=ios";
 
                 this.postPushtoken(body).then(Response =>{
                     this.pushData = Response;

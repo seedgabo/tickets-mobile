@@ -1,12 +1,17 @@
 
 <ion-header>
-  <ion-navbar primary>
-     <button menuToggle><ion-icon name="menu"></ion-icon></button>
-    <ion-title *ngIf="!buscar">
-        Casos
-    </ion-title>
-     <ion-searchbar *ngIf="buscar"></ion-searchbar>
-  </ion-navbar>
+    <ion-navbar primary>
+        <button menuToggle><ion-icon name="menu"></ion-icon></button>
+        <ion-title *ngIf="!buscar">
+            Casos
+        </ion-title>
+        <ion-buttons  end>
+            <button (click)="toNotificaciones()" >
+                <ion-icon name="notifications" ></ion-icon>
+                <ion-badge>{{api.user.notificaciones_count}}</ion-badge>
+            </button>
+        </ion-buttons>
+    </ion-navbar>
 </ion-header>
 
 <ion-content class="home">

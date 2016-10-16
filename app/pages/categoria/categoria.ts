@@ -3,6 +3,7 @@ import { NavController, NavParams, ModalController } from 'ionic-angular';
 import {Api} from '../../providers/api/api';
 import {TicketPage} from '../ticket/ticket';
 import {AgregarTicketPage} from '../agregar-ticket/agregar-ticket';
+declare var moment:any;
 @Component({
     templateUrl: 'build/pages/categoria/categoria.html',
 })
@@ -47,6 +48,12 @@ export class CategoriaPage {
             this.getTickets();
         });
 
+    }
+
+
+    fechar(fecha)
+    {
+        return moment(fecha).format("dddd,D MMMM  YYYY, h:mm:ss a");
     }
 
 }

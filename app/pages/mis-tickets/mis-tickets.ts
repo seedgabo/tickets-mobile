@@ -2,7 +2,7 @@ import { Component } from '@angular/core';
 import { NavController } from 'ionic-angular';
 import { Api} from '../../providers/api/api';
 import {TicketPage} from '../ticket/ticket';
-
+declare var moment:any;
 @Component({
   templateUrl: 'build/pages/mis-tickets/mis-tickets.html',
 })
@@ -24,5 +24,10 @@ export class MisTicketsPage {
 
   navigate(ticket){
       this.navCtrl.push(TicketPage,{ticket: ticket});
+  }
+
+  fechar(fecha)
+  {
+      return moment(fecha).format("dddd,D MMMM  YYYY, h:mm:ss a");
   }
 }

@@ -3,8 +3,10 @@ import {Platform, NavController,NavParams,ModalController,ToastController,AlertC
 import {Transfer, InAppBrowser} from 'ionic-native';
 import {Api} from '../../providers/api/api';
 import {AgregarComentarioPage} from '../agregar-comentario/agregar-comentario';
+import {EditTicketPage} from '../edit-ticket/edit-ticket';
 declare var cordova:any;
 declare var window:any;
+declare var moment:any;
 @Component({
     templateUrl: 'build/pages/ticket/ticket.html',
 })
@@ -21,10 +23,10 @@ export class TicketPage {
         this.getTicket();
     }
 
-    getTicket()
-    {
+    getTicket(){
         this.api.getTicket(this.ticket.id).then((data:any)=>{
             this.ticket = data.ticket;
+            console.log(this.ticket);
             this.comentarios = data.comentarios;
         })
     }
@@ -37,8 +39,7 @@ export class TicketPage {
         })
     }
 
-    agregarComentario()
-    {
+    agregarComentario(){
         let modal = this.modal.create(AgregarComentarioPage,{'ticket':this.ticket});
         modal.present();
         modal.onDidDismiss((data:any)=>{
@@ -47,18 +48,22 @@ export class TicketPage {
         });
     }
 
-    eliminarcomentario(comentario)
-    {
+    eliminarcomentario(comentario){
         this.api.deleteComenarioTicket(comentario.id).then((data) =>{
             this.getTicket();
         });
     }
 
-
+    editTicket(){
+        let modal = this.modal.create(EditTicketPage,{ticket: this.ticket});
+        modal.present();
+        modal.onDidDismiss((data:any)=>{
+            this.getTicket();
+        });
+    }
     // Descargas de ticket
 
-    descargarArchivoTicketold()
-    {
+    descargarArchivoTicketold(){
         let dir;
         if (this.platform.is('android'))
             dir = cordova.file.externalApplicationStorageDirectory;
@@ -93,8 +98,7 @@ export class TicketPage {
         let browser = InAppBrowser.open(url, '_system','hidden=yes');
     }
 
-    preguntarClave()
-    {
+    preguntarClave(){
         let alert = this.alert.create({
             title: 'Introduzca La clave:',
             inputs: [
@@ -123,8 +127,7 @@ export class TicketPage {
         alert.present();
     }
 
-    descargarArchivoEncriptadoold(clave)
-    {
+    descargarArchivoEncriptadoold(clave){
         let dir;
         if (this.platform.is('android'))
             dir = cordova.file.externalApplicationStorageDirectory;
@@ -162,8 +165,7 @@ export class TicketPage {
 
     // Descargas de Comentarios
 
-    descargarArchivoComentarioold(comentario)
-    {
+    descargarArchivoComentarioold(comentario){
         let dir;
         if (this.platform.is('android'))
             dir = cordova.file.externalApplicationStorageDirectory;
@@ -199,8 +201,7 @@ export class TicketPage {
         let browser = InAppBrowser.open(url, '_system','hidden=yes');
     }
 
-    preguntarClaveComentario(comentario)
-    {
+    preguntarClaveComentario(comentario){
         let alert = this.alert.create({
             title: 'Introduzca La clave:',
             inputs: [
@@ -233,8 +234,8 @@ export class TicketPage {
         let url = encodeURI(this.api.urlAuth("api/getEncryptedFile/comentario/" + comentario.id + "/" + clave)) ;
         let browser = InAppBrowser.open(url, '_system','hidden=yes');
     }
-    descargarArchivoComentarioEncriptadoold(comentario,clave)
-    {
+
+    descargarArchivoComentarioEncriptadoold(comentario,clave){
         let dir;
         if (this.platform.is('android'))
             dir = cordova.file.externalApplicationStorageDirectory;
@@ -265,10 +266,13 @@ export class TicketPage {
     }
 
 
-
-
-    abrirDocClasico(path,mime)
+    fechar(fecha)
     {
+        return moment(fecha).format("dddd,D MMMM  YYYY, h:mm:ss a");
+    }
+
+
+    abrirDocClasico(path,mime){
         console.log(path);
         this.loading = "Abriendo Archivo";
         let opener:string= this.getFileOpener(mime);
@@ -292,8 +296,7 @@ export class TicketPage {
         );
     }
 
-    getFileOpener(mime)
-    {
+    getFileOpener(mime){
         if (mime == "pdf")
         return 'application/pdf';
 

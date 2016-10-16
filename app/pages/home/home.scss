@@ -10,12 +10,38 @@
 }
 
 
-.vencido{
-    animation: vencido 1s infinite linear;
-    animation-direction: alternate;;
+
+.abierto{
+	background-color: rgba(0,0,255,0.5);
+	color:black;
+    font-weight: 500;
 }
 
-@keyframes vencido {
-    from {background-color: color($colors,primary); color:white;}
-    to {background-color: white;}
+.completado{
+	background-color: rgba(0,255,0,0.5);
+	color:black;
+    font-weight: 500;
+}
+
+.vencido{
+	background-color: rgba(255,0,0,0.5);
+	color:black;
+    font-weight: 500;
+}
+
+ion-icon.abierto{
+	background-color: rgba(0,0,255,1);
+	color:white;
+    border-radius: 50%;
+}
+
+ion-icon.completado{
+	background-color: rgba(0,255,0,1);
+	color:white;
+    border-radius: 50%;
+}
+ion-icon.vencido{
+	background-color: rgba(255,0,0,1);
+	color:white;
+    border-radius: 50%;
 }

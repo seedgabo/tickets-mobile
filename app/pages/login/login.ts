@@ -25,8 +25,9 @@ export class LoginPage {
               this.api.saveUser(data);
               this.api.saveData();
               this.api.pushRegister();
-              this.navController.setRoot(TabsPage);
-              loader.dismiss();
+              loader.dismiss().then(()=>{
+                  this.navController.setRoot(TabsPage);
+              });
           }
           else
           {

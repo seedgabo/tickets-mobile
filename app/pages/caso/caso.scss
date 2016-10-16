@@ -19,3 +19,19 @@ ion-card-header[royal]{
     background-color: color($colors,royal);
     color: white;
 }
+ion-list-header[primary]{
+    background-color: color($colors,primary);
+    color: white;
+}
+ion-list-header[secondary]{
+    background-color: color($colors,secondary);
+    color: white;
+}
+ion-list-header[favorite]{
+    background-color: color($colors,favorite);
+    color: white;
+}
+ion-list-header[royal]{
+    background-color: color($colors,royal);
+    color: white;
+}

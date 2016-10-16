@@ -1,8 +1,9 @@
 import { Component } from '@angular/core';
-import { NavController, ViewController, NavParams, LoadingController,AlertController } from 'ionic-angular';
+import { NavController, ViewController, NavParams, LoadingController,AlertController, Platform } from 'ionic-angular';
 import {Api} from '../../providers/api/api';
 import { Transfer } from 'ionic-native';
 declare var fileChooser:any;
+declare var window:any;
 @Component({
     templateUrl: 'build/pages/agregar-ticket/agregar-ticket.html',
 })
@@ -20,7 +21,7 @@ export class AgregarTicketPage {
     nombre:string="";
     clave:string="";
     archivo:string = null;
-    constructor(private navCtrl: NavController, private viewctrl:ViewController, api:Api,params:NavParams,private loading:LoadingController, private alert:AlertController) {
+    constructor(public navCtrl: NavController, public viewctrl:ViewController, api:Api,params:NavParams,public loading:LoadingController, public alert:AlertController, public platform:Platform) {
         this.api = api;
         this.getCategorias();
     }
@@ -92,7 +93,43 @@ export class AgregarTicketPage {
     }
 
     pickFile() {
+        if(this.platform.is('ios'))
+        {
+            this.pickFileIos();
+            return;
+        }
         fileChooser.open((data)=>{
+            this.archivo = data;
+            this.alert.create({title:"Nombre del archivo",subTitle: "no olvide colocar la extension.(ej: archivo.pdf)" ,inputs:[
+                {
+                    type: "url",
+                    name: "nombre",
+                    placeholder: "Nombre del archivo",
+                    value: "." + data.split('.').pop()
+                },
+            ],
+            buttons:[
+                {
+                    text: 'Cancelar',
+                    handler: form => {
+                        console.log('Cancel clicked');
+                    }
+                },
+                {
+                    text: 'Aceptar',
+                    handler: (form) => {
+                        this.nombre = form.nombre;
+                    }
+                }
+            ]
+        }).present();
+    },(data)=>{
+        console.log(data);
+    });
+    }
+
+    pickFileIos() {
+        window.FilePicker.pickFile((data)=>{
             this.archivo = data;
             this.alert.create({title:"Nombre del archivo",subTitle: "no olvide colocar la extension.(ej: archivo.pdf)" ,inputs:[
                 {

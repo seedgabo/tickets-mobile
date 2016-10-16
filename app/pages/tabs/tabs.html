@@ -20,6 +20,10 @@
             <ion-icon name="pricetag" item-right primary ></ion-icon> Casos Abiertos
         </button>
         <ion-list-header><ion-icon name="settings" item-left></ion-icon> Opciones</ion-list-header>
+        <button ion-item menuClose (click)="toNotificaciones()" >
+             Notificaciones
+            <ion-badge item-right>{{api.user.notificaciones_count }}</ion-badge>
+        </button>
         <button ion-item menuClose (click)="toLogin()" >
             <ion-icon name="log-out" item-right  primary></ion-icon> Cerrar Sesión
         </button>
@@ -27,8 +31,13 @@
   </ion-content>
 </ion-menu>
 
-<ion-tabs #mycontent tabsLayout="icon-left" primary >
+<!-- <ion-tabs  #mycontent tabsLayout="icon-left" primary >
   <ion-tab [root]="tab1Root" tabTitle="Tickets" tabIcon="pricetags"></ion-tab>
   <ion-tab [root]="tab2Root" tabTitle="Documentos" tabIcon="folder-open"></ion-tab>
-  <ion-tab [root]="tab3Root" *ngIf="api.user.medico == 1" tabTitle="Clínica" tabIcon="medkit"></ion-tab>
+  <ion-tab [root]="tab3Root" tabTitle="Clínica" tabIcon="medkit"></ion-tab>
+</ion-tabs> -->
+
+<ion-tabs  #mycontent tabsLayout="icon-left" primary >
+  <ion-tab [root]="tab1Root" tabTitle="Tickets" tabIcon="pricetags"></ion-tab>
+  <ion-tab [root]="tab2Root" tabTitle="Documentos" tabIcon="folder-open"></ion-tab>
 </ion-tabs>

@@ -27,9 +27,13 @@ export class AgregarComentarioPage {
     {
         if(this.archivo == null)
         {
+            let loading = this.loading.create({content: "Agregando Seguimiento"});
+            loading.present();
             let data = "texto="+ this.texto;
             this.api.postComentarioTicket(data,this.ticket.id).then((data)=>{
-                this.viewctrl.dismiss({agregado: true});
+                loading.dismiss().then(()=>{
+                    this.viewctrl.dismiss({agregado: true});
+                });
             });
         }
         else
