@@ -95,7 +95,7 @@ export class TicketPage {
 
     descargarArchivoTicket(){
         let url = encodeURI(this.ticket.path) ;
-        let browser = InAppBrowser.open(url, '_system','hidden=yes');
+        let browser = InAppBrowser.open(url,"_system");
     }
 
     preguntarClave(){
@@ -159,7 +159,7 @@ export class TicketPage {
 
     descargarArchivoEncriptado(clave){
         let url = encodeURI(this.api.urlAuth("api/getEncryptedFile/ticket/" + this.ticket.id + "/" + clave)) ;
-        let browser = InAppBrowser.open(url, '_system','hidden=yes');
+        let browser = InAppBrowser.open(url,"_system");
     }
 
 

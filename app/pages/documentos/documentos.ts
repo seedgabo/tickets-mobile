@@ -40,7 +40,7 @@ export class DocumentosPage {
 
     descargarDocumento(documento){
         let url =encodeURI(this.api.urlAuth("api/getDocumento/" + documento.id));
-        let browser = InAppBrowser.open(url, '_system','hidden=yes');
+        let browser = InAppBrowser.open(url,"_system");
     }
 
     descargarDocumentoprev(documento){
